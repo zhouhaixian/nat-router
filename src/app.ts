@@ -4,10 +4,10 @@ import { JSONFilePreset } from "lowdb/node"
 
 const domain = "router.mlkouying.cn"
 const token = "DnS0G7VJtbh7K9idXL8IrAxSn8ppT2SM69Z4X4GqwKiYsPrO43"
-const dbPath = "/mnt/nat-router"
+const dbPath = "/mnt/nat-router/routes.json"
 
 const app = express()
-const port = 3000
+const port = 9000
 const defaultRoute: Routes = { routes: {} };
 type Routes = {
     routes: any
