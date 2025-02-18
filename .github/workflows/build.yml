@@ -35,4 +35,8 @@ jobs:
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add dist
         git commit -m "build to tencent cloud scf"
-        git push origin HEAD
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
