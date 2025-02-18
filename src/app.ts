@@ -48,7 +48,7 @@ type Routes = {
     app.all("*", (req, res) => {
         const hostname = req.hostname
         const destination = db.data.routes[hostname]
-        const url = `${req.protocol}://${destination}${req.originalUrl}`
+        const url = `https://${destination}${req.originalUrl}`
         res.redirect(302, url)
     })
 
