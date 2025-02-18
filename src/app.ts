@@ -1,10 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser"
 import { JSONFilePreset } from "lowdb/node"
+import fs from "fs"
 
 const domain = "router.mlkouying.cn"
 const token = "DnS0G7VJtbh7K9idXL8IrAxSn8ppT2SM69Z4X4GqwKiYsPrO43"
-const dbPath = "/mnt/nat-router/routes.json"
+const dbPath = "/mnt/nat-router"
+const dbFilename = "routes.json"
 
 const app = express()
 const port = 9000
@@ -14,7 +16,14 @@ type Routes = {
 }
 
 (async () => {
-    const db = await JSONFilePreset<Routes>(dbPath, defaultRoute)
+    fs.access(dbPath, fs.constants.F_OK, (err => {
+        if (err) {
+            fs.mkdir(dbPath, { recursive: true }, (err) => {
+                throw err
+            })
+        }
+    }))
+    const db = await JSONFilePreset<Routes>(dbPath+dbFilename, defaultRoute)
     
     app.use(bodyParser.json({ limit: "1mb" }))
     app.use(bodyParser.urlencoded({
