@@ -7,6 +7,7 @@ const domain = "router.mlkouying.cn"
 const token = "DnS0G7VJtbh7K9idXL8IrAxSn8ppT2SM69Z4X4GqwKiYsPrO43"
 const dbPath = "/mnt/nat-router"
 const dbFilename = "routes.json"
+const dbUri = dbPath + dbFilename
 
 const app = express()
 const port = 9000
@@ -23,7 +24,7 @@ type Routes = {
             })
         }
     }))
-    const db = await JSONFilePreset<Routes>(dbPath+dbFilename, defaultRoute)
+    const db = await JSONFilePreset<Routes>(dbUri, defaultRoute)
     
     app.use(bodyParser.json({ limit: "1mb" }))
     app.use(bodyParser.urlencoded({
@@ -48,7 +49,8 @@ type Routes = {
     app.post("/clear", async (req, res, next) => {
         if (req.hostname == domain) {
             if (req.body.token == token) {
-                await db.update(({routes}) => routes = {})
+                db.data = defaultRoute
+                await db.write()
                 res.send({ status: "success" })
             } else {
                 res.status(403).send({ status: "token incorrect" })
