@@ -45,6 +45,19 @@ type Routes = {
         }
     })
 
+    app.post("/clear", async (req, res, next) => {
+        if (req.hostname == domain) {
+            if (req.body.token == token) {
+                await db.update(({routes}) => routes = {})
+                res.send({ status: "success" })
+            } else {
+                res.status(403).send({ status: "token incorrect" })
+            }
+        } else {
+            next()
+        }
+    })
+
     app.all("*", (req, res) => {
         const hostname = req.hostname
         const destination = db.data.routes[hostname]
