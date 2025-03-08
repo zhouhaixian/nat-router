@@ -4,7 +4,7 @@ import { JSONFilePreset } from "lowdb/node"
 import fs from "fs"
 
 const domain = process.env.DOMAIN
-const token = process.env.DNSPOD_TOKEN
+const token = process.env.TOKEN
 const dbPath = process.env.DATA_DIR!
 const dbFilename = process.env.DB_FILENAME
 const dbUri = dbPath + dbFilename
